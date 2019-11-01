@@ -5,25 +5,34 @@ import sys
 
 def matchInterval(lista,inicial,final, matichinNumb): # retorna uma lista com o intervalo definido
     outInterval = []
-    rig = 0 
-    matchinCont = 0
+    rig         = 0 
+    matchinConti = 0
+    matchinContf = 0
     for charac in lista:
         if(rig == 0):
-            if( (charac == inicial)  and (matchinCont == matichinNumb)):
+            if((str(charac) == str(inicial) ) and (matchinConti == matichinNumb)):
+                print("Encontrado o ", inicial, "escolhido!")
                 outInterval.append(charac)
-                rig = 1
-                matchinCont = 0
-            elif(charac == inicial):
-                matchinCont += 1 
+                rig             = 1
 
+            elif(str(charac) == str(inicial)):
+                matchinConti     += 1 
+            elif(str(charac) == str(final)):
+                matchinContf += 1
         elif (rig == 1):
-            if((charac == final) and (matichinNumb == matchinCont)):
+            if((str(charac) == str(final)) and (matichinNumb == matchinContf)):
+                print("Encontrado o ", final, "escolhido!")
                 outInterval.append(charac)
+                rig = 2
                 return outInterval
-            elif(charac == final):
-                matchinCont += 1
+            elif(str(charac) == str(final)):
+                outInterval.append(charac)
+                matchinContf     += 1
             else:
                 outInterval.append(charac)
+        else:
+            print("batata")
+            
 
 
 
@@ -32,7 +41,7 @@ def matchInterval(lista,inicial,final, matichinNumb): # retorna uma lista com o 
 
 
 def main():
-    regularExpresion = input("Ensina a expressão resgular: ")
+    regularExpresion = input("Insira a expressão resgular: ")
     regularExpresion = regularExpresion.strip()
     
     # Retira espacos em branco
@@ -41,7 +50,7 @@ def main():
         if(re != ' '):
             rEwB.append(re)
     
-    batata = matchInterval(rEwB,'1','0',0)
-    print(batata)
+    #batata = matchInterval(rEwB,'(',')',3)
+    #print(batata)
 
 main()
