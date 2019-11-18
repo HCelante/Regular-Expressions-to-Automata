@@ -1,7 +1,6 @@
-
-
 import sys
-
+from models.pilha import Pilha
+from src.separaExpressoes import Expressoes as ex
 
 def matchInterval(lista,inicial,final, matichinNumb): # retorna uma lista com o intervalo definido
     outInterval = []
@@ -32,25 +31,9 @@ def matchInterval(lista,inicial,final, matichinNumb): # retorna uma lista com o 
                 outInterval.append(charac)
         else:
             print("batata")
-            
-
-
-
-
-
-
 
 def main():
-    regularExpresion = input("Insira a expressão resgular: ")
-    regularExpresion = regularExpresion.strip()
-    
-    # Retira espacos em branco
-    rEwB = []
-    for re in regularExpresion:
-        if(re != ' '):
-            rEwB.append(re)
-    
-    #batata = matchInterval(rEwB,'(',')',3)
-    #print(batata)
+    constMath = input("Insira a expressao regular: ")
+    ex.math(constMath)
 
 main()
