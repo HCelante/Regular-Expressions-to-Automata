@@ -1,4 +1,4 @@
-from AFND_modelo import *
+from AFND.modelo_afnd import *
 
 def conversao_AFND_AFD(AFND):
     todos_estados = dict()

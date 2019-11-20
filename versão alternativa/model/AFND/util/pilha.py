@@ -1,4 +1,4 @@
-from AFND_modelo import *
+
 
 class Pilha(object):
     def __init__(self):
@@ -20,5 +20,5 @@ class Pilha(object):
         for i in self.dado:
             i.imprimir_automato()
 
-    def imprimir_pilha_expressao():
-        print(dado)
+    def imprimir_pilha_expressao(self):
+        print(self.dado)

@@ -1,9 +1,9 @@
-from infixa_posfixa import *
-from pilha import *
-from AFND_controle import *
+from AFND.util.infixa_posfixa import *
+from AFND.util.pilha import *
+from AFND.controle_afnd import *
 
 
-def converter__ER__AFND(alfabeto_entrada):
+def convert_ER_to_AFND(alfabeto_entrada):
     
     pilha_alfabeto = Pilha()    
     alfabeto_pos_fixo = converter_infixa_posfixa(alfabeto_entrada)    
@@ -27,9 +27,3 @@ def converter__ER__AFND(alfabeto_entrada):
 
     return pilha_alfabeto.get_pilha()
         
-
-# alfabeto_entrada = '1
-# '
-# automato = converter__ER__AFND(alfabeto_entrada)
-# automato.imprimir_automato()
-

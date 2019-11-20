@@ -1,18 +1,14 @@
-
-'''
-Grupo:
-'''
-import os # biblioteca pra usar o método de limpar a tela
-from model.ER_AFND import *
-from model.util.infixa_posfixa import *
-from model.AFND_AFD import *
+import os
+from model.expressao_to_afnd import *
+from model.AFND.util.infixa_posfixa import *
+from model.afnd_to_afd import *
 import time
 import subprocess
 
 # from os import popen
 
 def main():
-    print("EXPRESSÃO REGUAR VS AUTOMATOS")
+    print("Expressao regular para automato - APS LFAC")
     expressao_regular = ''
     AFND = ''
     AFD = ''
@@ -27,28 +23,31 @@ def main():
 
     while(opcao != '0'):
 
-        # limpa a tela no Windows ou Linux
-        os.system('cls' if os.name == 'nt' else 'clear')
         print("\n")
-        print(" FUNCIONALIDADES: ")
-        print(" [1] Inserir ER")
-        print(" [2] Emitir ER")
-        print(" [3] Emitir AFND")
-        print(" [4] Emitir AFD")
-        print(" [5] Emitir AFD MINIMIZADO")
-        print(" [0] Sair")
+        print("___________________________")
+        print(" Opcoes:")
+        print(" (1) Inserir ER;")
+        print(" (2) Gerar ER;")
+        print(" (3) Gerar AFND;")
+        print(" (4) Gerar AFD;")
+        print(" (5) Gerar AFD minimizado;")
+        print(" (0) Sair do programa;")
+        print("___________________________")
+        print("\n")
 
         opcao = input("\n  >> ")
-        if(opcao == '1'):                                            # 'a*+c*.(q*.w*.e*)+t*+(m*.y*)+o*'
-            # expressao_regular = '0+1*.0'  
-            expressao_regular = input('\n INSIRA A EXPRESSÃO REGULAR : ')    
+        if(opcao == '1'): 
+            expressao_regular = input('\n >> Insira a ER desejada : ')    
             expressao_regular = analise_expressao(expressao_regular)
-            AFND = converter__ER__AFND(expressao_regular)
+            print("\n|Passo 1 - A expressao foi analisada.")
+            AFND = convert_ER_to_AFND(expressao_regular)
+            print("\n|Passo 2 - A expressao foi convertida em um AFND.")
             AFD = conversao_AFND_AFD(AFND)
-
+            print("\n|Passo 3 - O AFND foi convertido em um AFD.")
             AFND.criar_arquivo(arquivo_AFND,'NDFA')
             AFD.criar_arquivo(arquivo_AFD,'DFA')
             AFD.criar_arquivo_AFD_MINIZAR(arquivo_AFD_para_minimizar)
+            print("\n|Passo 4 - Os arquivos com os respectivos automatos foram criados.")
 
             processo = subprocess.Popen(['python3', 'min-AFD.py', arquivo_AFD_para_minimizar, arquivo_AFD_MINIMO])
             if processo.wait() != 0:
@@ -88,19 +87,10 @@ def main():
             testar_automato(arquivo_AFD_MINIMO,expressao_regular,AFD)
 
 
-            # palavra_teste = verificar_teste(expressao_regular, AFD)
-            # popen('python3 fla/main.py '+arquivo_AFD_MINIMO+' '+palavra_teste+' >'+arquivo_resposta_aceitacao)            
-            # arquivo = open(arquivo_resposta_aceitacao)
-            # resposta = arquivo.readlines()
-            # for i in resposta:
-            #     print(i)
-            # arquivo.close()
-
-
 
 def testar_automato(arquivo_automato, exp_reg, automato):
 
-    testar = input("\n TESTAR AUTOMATO ?  [ SIM == 's' ] : ")
+    testar = input("\nGostaria de testar o automato?  [ 's' ] : ")
     if testar == 's':
         arquivo_resposta_aceitacao = 'resposta.txt'
         criar_arq = open(arquivo_resposta_aceitacao,'w')
@@ -120,7 +110,7 @@ def testar_automato(arquivo_automato, exp_reg, automato):
             for i in resposta:
                 print(i)
             arquivo.close()
-            testar_novamente = input(" TESTAR NOVAMENTE ?  [ SIM == 's' ] : ")
+            testar_novamente = input("Testar de novo ?  [ 's' ] : ")
         
     
 
@@ -129,14 +119,14 @@ def verificar_teste(automato):
     palavra_teste = ''
     continuar = True
     while(continuar):
-        palavra_teste = input(" INSIRA A PALAVRA DE TESTE: ") 
+        palavra_teste = input(">> Insira uma palavra para testar: ") 
         for i in range(len(palavra_teste)):
             if palavra_teste[i] in automato.alfabeto:
                 continuar = False
             else:
                 continuar = True
-                print("\n PALAVRA NÃO FAZ PARTE DO ALFABETO DE ENTRADA, TENTE NOVAMENTE!")
-                print(" OBS: ALFABETO DE ENTRADA: ",automato.alfabeto)
+                print("\n A palavra nao faz parte!")
+                print("Alfabeto aceito: ",automato.alfabeto)
                 break
     return palavra_teste
 

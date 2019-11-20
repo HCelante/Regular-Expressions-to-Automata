@@ -1,4 +1,4 @@
-from AFND_modelo import *
+from modelo_afnd import *
 
 def renomeia_estados_automato(incremento, automato2):
  
