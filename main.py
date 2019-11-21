@@ -33,7 +33,7 @@ def matchInterval(lista,inicial,final, matichinNumb): # retorna uma lista com o 
             print("batata")
 
 def main():
-    constMath = input("Insira a expressao regular: ..")
+    constMath = input("Insira a expressao regular: ")
     ex.math(constMath)
 
 main()
