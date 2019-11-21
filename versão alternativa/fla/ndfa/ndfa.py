@@ -1,9 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from ndfa.instance import Instance
+from instance import Instance
 import copy
 import logging
+
 
 class NonDeterministicFiniteAutomaton:
     def __init__(self, states, initial_states, acceptance_states, transitions):
@@ -11,14 +12,14 @@ class NonDeterministicFiniteAutomaton:
         self.initial_states = initial_states
         self.acceptance_states = acceptance_states
         self.transitions = transitions
-        self.current_configurations = [] 
+        self.current_configurations = []
         self.closure = {}
         for state in self.states:
-            self.get_closure(state)   
+            self.get_closure(state)
 
     def restart(self):
         self.current_configuration = []
-        
+
     def get_closure(self, state):
         if state not in self.closure:
             current_closure = set()
@@ -31,14 +32,14 @@ class NonDeterministicFiniteAutomaton:
                         new_closure.add(transition.new_state)
             self.closure[state] = new_closure
         return self.closure[state]
-    
+
     def verify_status(self, configuration):
         if len(configuration.current_word) == 0:
             if configuration.current_state in self.acceptance_states:
                 configuration.acceptance_status = True
             else:
                 configuration.acceptance_status = False
-    
+
     def get_decision(self):
         for configuration in self.current_configurations:
             if len(configuration.current_word) == 0:
@@ -53,7 +54,7 @@ class NonDeterministicFiniteAutomaton:
             configuration = Instance(self, state, word)
             configurations.append(configuration)
         return configurations
-    
+
     def load_configurations(self, configurations):
         self.current_configurations = configurations
 
@@ -64,7 +65,8 @@ class NonDeterministicFiniteAutomaton:
             for transition in configuration.get_valid_transitions():
                 new_configuration = configuration.apply_transition(transition)
                 self.current_configurations.append(new_configuration)
-                logging.debug(str(configuration) + " -> " + str(new_configuration))
+                logging.debug(str(configuration) + " -> " +
+                              str(new_configuration))
 
     def run(self):
         pertinence_decision = self.get_decision()
@@ -79,4 +81,3 @@ class NonDeterministicFiniteAutomaton:
                     halted_configurations.append(configuration)
         self.current_configurations = halted_configurations
         return self.get_decision()
-        

@@ -15,14 +15,14 @@ import logging
 def dfa(lines, cmdline_args):
     input_alphabet    = lines[0].split()
     states            = lines[2].split()
-    initial_state     = lines[3]
+    initialState     = lines[3]
     acceptance_states = lines[4].split()
     transitions = []
     for description in lines[5:]:
         splited_description = description.split()
         transition = DFATransition(splited_description[0], splited_description[1], splited_description[2])
         transitions.append(transition)
-    dfa = DeterministicFiniteAutomaton(states, initial_state, acceptance_states, transitions)
+    dfa = DeterministicFiniteAutomaton(states, initialState, acceptance_states, transitions)
     initial_configuration = dfa.get_initial_configuration(cmdline_args[0])
     dfa.load_configuration(initial_configuration)
     result = dfa.run()
@@ -35,7 +35,7 @@ def ndfa(lines, cmdline_args):
     input_alphabet    = lines[0].split()
     whitespace        = lines[1]
     states            = lines[2].split()
-    initial_states    = lines[3].split()
+    initialStates    = lines[3].split()
     acceptance_states = lines[4].split()
     transitions = []
     for description in lines[5:]:
@@ -44,7 +44,7 @@ def ndfa(lines, cmdline_args):
             splited_description[1] = None
         transition = NDFATransition(splited_description[0], splited_description[1], splited_description[2])
         transitions.append(transition)
-    ndfa = NonDeterministicFiniteAutomaton(states, initial_states, acceptance_states, transitions)
+    ndfa = NonDeterministicFiniteAutomaton(states, initialStates, acceptance_states, transitions)
     initial_configurations = ndfa.get_initial_configurations(cmdline_args[0])
     ndfa.load_configurations(initial_configurations)
     result = ndfa.run()

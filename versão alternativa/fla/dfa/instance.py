@@ -1,10 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from dfa.transition import Transition
+from transition import Transition
+
 
 class Instance:
-    def __init__(self, automaton, state, word, previous_configuration = None):
+    def __init__(self, automaton, state, word, previous_configuration=None):
         self.automaton = automaton
         self.current_state = state
         self.current_word = word
@@ -20,7 +21,7 @@ class Instance:
         result += ""
         result += self.current_state
         return result
-    
+
     def __eq__(self, other):
         if self.__class__ != other.__class__:
             return False
@@ -39,9 +40,10 @@ class Instance:
             if self.__is_transition_valid(transition):
                 valid_transitions.append(transition)
         return valid_transitions[0]
-        
+
     def apply_transition(self, transition):
         if not self.__is_transition_valid(transition):
             return None
-        new_instance = Instance(self.automaton, transition.new_state, self.current_word[1:], self)
+        new_instance = Instance(
+            self.automaton, transition.new_state, self.current_word[1:], self)
         return new_instance

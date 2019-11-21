@@ -1,51 +1,52 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from dfa.instance import Instance
+from instance import Instance
 import logging
 
+
 class DeterministicFiniteAutomaton:
-    def __init__(self, states, initial_state, acceptance_states, transitions):
+    def __init__(self, states, initialState, acceptanceStates, transitions):
         self.states = states
-        self.initial_state = initial_state
-        self.acceptance_states = acceptance_states
+        self.initialState = initialState
+        self.acceptanceStates = acceptanceStates
         self.transitions = transitions
-        self.current_configuration = None    
+        self.currentConfiguration = None
 
     def restart(self):
-        self.current_configuration = None
-            
+        self.currentConfiguration = None
+
     def get_decision(self):
-        if len(self.current_configuration.current_word) == 0:
-            if self.current_configuration.current_state in self.acceptance_states:
+        if len(self.currentConfiguration.current_word) == 0:
+            if self.currentConfiguration.current_state in self.acceptanceStates:
                 return True
             else:
                 return False
         return None
 
     def get_initial_configuration(self, word):
-        return Instance(self, self.initial_state, word)
-    
+        return Instance(self, self.initialState, word)
+
     def load_configuration(self, configuration):
-        self.current_configuration = configuration
+        self.currentConfiguration = configuration
 
     def step_forward(self):
-        transition = self.current_configuration.get_valid_transition()
+        transition = self.currentConfiguration.get_valid_transition()
         if transition == None:
-            if len(self.current_configuration.current_word) == 0 and self.current_configuration.current_state in self.acceptance_states:
-                self.current_configuration.acceptance_status = True
+            if len(self.currentConfiguration.current_word) == 0 and self.currentConfiguration.current_state in self.acceptanceStates:
+                self.currentConfiguration.acceptance_status = True
             else:
-                self.current_configuration.acceptance_status = False
+                self.currentConfiguration.acceptance_status = False
         else:
-            self.current_configuration = self.current_configuration.apply_transition(transition)
+            self.currentConfiguration = self.currentConfiguration.apply_transition(
+                transition)
 
     def run(self):
-        logging.debug(self.current_configuration)
+        logging.debug(self.currentConfiguration)
         pertinence_decision = self.get_decision()
         if pertinence_decision == True:
             return True
-        while not self.current_configuration.is_final():
+        while not self.currentConfiguration.is_final():
             self.step_forward()
-            logging.debug(self.current_configuration)
+            logging.debug(self.currentConfiguration)
         return self.get_decision()
-        

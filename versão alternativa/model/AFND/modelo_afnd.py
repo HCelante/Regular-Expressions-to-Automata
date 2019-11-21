@@ -3,28 +3,25 @@ from itertools import chain
 
 
 class Automato:
-    
+
     def __init__(self, nome=None):
-        self.letra_estado         =  'q'
-        self.inicio               =  self.letra_estado+(str(0))
+        self.letra_estado = 'q'
+        self.inicio = self.letra_estado+(str(0))
         if(nome != None):
-            self.listaFim        =  [self.letra_estado+(str(1))]
-            self.listaEstado     =  [self.inicio, self.listaFim[0]]
-            transicao             =  Transicao(self.inicio, nome, self.listaFim[0])
-            self.lista_transicao  =  [transicao]
-            self.alfabeto         =  [transicao.nome]
+            self.listaFim = [self.letra_estado+(str(1))]
+            self.listaEstado = [self.inicio, self.listaFim[0]]
+            transicao = Transicao(self.inicio, nome, self.listaFim[0])
+            self.lista_transicao = [transicao]
+            self.alfabeto = [transicao.nome]
         else:
-            self.listaEstado     =  []
-            self.lista_transicao  =  list()
-            self.alfabeto         =  list()
-            self.listaFim        =  list()
-
-
+            self.listaEstado = []
+            self.lista_transicao = list()
+            self.alfabeto = list()
+            self.listaFim = list()
 
     @staticmethod
     def epsilon():
         return 'E'
-
 
     def add_estado(self, nome_estado):
         if(nome_estado in self.listaEstado):
@@ -33,13 +30,11 @@ class Automato:
         self.listaFim = [nome_estado]
         return True
 
-
     def get_estado(self, nome_estado):
         for estado in self.listaEstado:
             if estado == nome_estado:
                 return estado
         return False
-
 
     def add_transicao(self, origem, nome, destino):
         if isinstance(origem, int):
@@ -55,39 +50,35 @@ class Automato:
             self.lista_transicao.append(transicao)
             if(transicao.nome != self.epsilon()):
                 if(transicao.nome not in self.alfabeto):
-                    self.alfabeto.append(transicao.nome)                
+                    self.alfabeto.append(transicao.nome)
             return True
         return False
-
 
     def verifica_origem_e_destino_da_transicao(self, origem, nome, destino):
         for transicao in self.lista_transicao:
             if ((transicao.origem == origem) and (transicao.destino == destino) and (transicao.nome == nome)):
                 return True
         return False
-    
 
     def imprimir_automato(self):
         print(self.alfabeto)
         print(self.epsilon())
         print(self.inicio)
         for i in self.listaFim:
-            print(f'{i} ',end='')
-        print() 
+            print(f'{i} ', end='')
+        print()
         for estados in self.listaEstado:
-            print(estados, end =" ")
+            print(estados, end=" ")
         print("")
         for i in self.lista_transicao:
             print(f'[{i.origem} {i.nome} {i.destino}]')
         print("\n")
 
-
-    
     def get_transicao_destino(self, estado, palavra):
 
         transicoes = self.get_transicao()
-        if isinstance(estado, int): # mudar pra list
-            estado = [estado]       
+        if isinstance(estado, int):  # mudar pra list
+            estado = [estado]
         todos_estados = set()
         for estado in estado:
             if estado in transicoes:
@@ -95,8 +86,6 @@ class Automato:
                     if palavra in transicoes[estado][transicao]:
                         todos_estados.add(transicao)
         return set(todos_estados)
-
-
 
     def get_transicao(self):
         transicoes = {}
@@ -112,8 +101,6 @@ class Automato:
                 transicoes[origem][destino].update([nome])
         return transicoes
 
-
-
     def get_estados_epsilon(self, estado_origem):
 
         transicoes = self.get_transicao()
@@ -128,10 +115,9 @@ class Automato:
                         origens.add(destino)
         return todos_estados
 
-
     def criar_arquivo(self, nome_arquivo, titulo):
-    
-        arquivo = open(nome_arquivo,'w')
+
+        arquivo = open(nome_arquivo, 'w')
         arquivo.write(titulo+'\n')
         arquivo.write(' '.join(self.alfabeto) + '\n')
         arquivo.write(self.epsilon()+'\n')
@@ -139,9 +125,9 @@ class Automato:
         arquivo.write(self.inicio + '\n')
         arquivo.write(' '.join(self.listaFim) + '\n')
         for i in self.lista_transicao:
-            arquivo.write(i.origem +' ')
-            arquivo.write(i.nome +' ')
-            arquivo.write(i.destino +'\n')
+            arquivo.write(i.origem + ' ')
+            arquivo.write(i.nome + ' ')
+            arquivo.write(i.destino + '\n')
         arquivo.close()
 
         # EXEMPLO:
@@ -154,24 +140,20 @@ class Automato:
         # q0 0 q1
         # q0 1 q0
 
-
-
     def criar_arquivo_AFD_MINIZAR(self, nome_arquivo):
-        arquivo = open(nome_arquivo,'w')
+        arquivo = open(nome_arquivo, 'w')
         arquivo.write('(\n{' + ','.join(self.listaEstado) + '}\n{')
         arquivo.write(','.join(self.alfabeto))
         arquivo.write('},\n{\n')
         for i in self.lista_transicao:
-            arquivo.write('('+i.origem +',')
+            arquivo.write('('+i.origem + ',')
             arquivo.write(i.nome+'->')
-            arquivo.write(i.destino +')'+',\n')
+            arquivo.write(i.destino + ')'+',\n')
         arquivo.write('},\n')
         arquivo.write(self.inicio+',\n')
         arquivo.write('{'+','.join(self.listaFim))
         arquivo.write('}\n)')
         arquivo.close()
-        
-    
 
     # ideia de como implementar um sistema de aceitação!
     # def acceptsString(self, string):
@@ -186,7 +168,7 @@ class Automato:
     #     if currentstate in self.dfa.finalstates:
     #         return True
     #     return False
-            
+
 
 '''
 Para executar o programa é necessário passar 3 parametros:
