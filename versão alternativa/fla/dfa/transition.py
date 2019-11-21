@@ -3,15 +3,15 @@
 
 
 class Transition(object):
-    def __init__(self, current_state, current_symbol, new_state):
-        self.current_state = current_state
+    def __init__(self, currentState, current_symbol, new_state):
+        self.currentState = currentState
         self.current_symbol = current_symbol
         self.new_state = new_state
 
     def __str__(self):
         result = "["
         result = ""
-        result += self.current_state + ", " + self.current_symbol + " -> "
+        result += self.currentState + ", " + self.current_symbol + " -> "
         result += self.new_state
         result += "]"
         return result
@@ -19,7 +19,7 @@ class Transition(object):
     def __eq__(self, other):
         if self.__class__ != other.__class__:
             return False
-        if self.current_state != other.current_state:
+        if self.currentState != other.currentState:
             return False
         if self.current_symbol != other.current_symbol:
             return False
@@ -28,7 +28,7 @@ class Transition(object):
         return True
 
     def match_state(self, state):
-        return self.current_state == state
+        return self.currentState == state
 
     def match_symbol(self, symbol):
         return self.current_symbol == symbol

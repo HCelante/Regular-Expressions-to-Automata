@@ -35,7 +35,7 @@ class NonDeterministicFiniteAutomaton:
 
     def verify_status(self, configuration):
         if len(configuration.current_word) == 0:
-            if configuration.current_state in self.acceptance_states:
+            if configuration.currentState in self.acceptance_states:
                 configuration.acceptance_status = True
             else:
                 configuration.acceptance_status = False
@@ -43,7 +43,7 @@ class NonDeterministicFiniteAutomaton:
     def get_decision(self):
         for configuration in self.current_configurations:
             if len(configuration.current_word) == 0:
-                closure = self.get_closure(configuration.current_state)
+                closure = self.get_closure(configuration.currentState)
                 if len(closure.intersection(self.acceptance_states)) > 0:
                     return True
         return False

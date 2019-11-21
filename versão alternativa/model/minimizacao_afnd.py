@@ -8,8 +8,8 @@ class State(object):
 
 
 class Transition(object):
-    def __init__(self, current_state, next_state, symbol):
-        self.current_state = current_state
+    def __init__(self, currentState, next_state, symbol):
+        self.currentState = currentState
         self.next_state = next_state
         self.symbol = symbol
 
@@ -102,7 +102,7 @@ class Automaton(object):
         transitions_list = []
 
         for transition in self.transitions:
-            if transition.current_state == state:
+            if transition.currentState == state:
                 transitions_list.append(transition)
         return transitions_list
 
@@ -129,8 +129,8 @@ class Automaton(object):
                 p2 += 1
 
         for transition in self.transitions:
-            if transition.current_state == state2:
-                transition.current_state = state1
+            if transition.currentState == state2:
+                transition.currentState = state1
             if transition.next_state == state2:
                 transition.next_state = state1
 
@@ -140,7 +140,7 @@ class Automaton(object):
         for t1 in range(len(self.transitions)):
             t2 = t1+1
             while(t2 < len(self.transitions)):
-                if(self.transitions[t1].current_state == self.transitions[t2].current_state and
+                if(self.transitions[t1].currentState == self.transitions[t2].currentState and
                    self.transitions[t1].next_state == self.transitions[t2].next_state and
                    self.transitions[t1].symbol == self.transitions[t2].symbol):
                     del self.transitions[t2]
@@ -193,8 +193,8 @@ class Automaton(object):
                 min_afd.write(state.state_name+' ')
 
         for transition in self.transitions:
-            if transition.next_state.state_name != 'qTrap' and transition.current_state.state_name != 'qTrap':
-                min_afd.write("\n" + transition.current_state.state_name + " " +
+            if transition.next_state.state_name != 'qTrap' and transition.currentState.state_name != 'qTrap':
+                min_afd.write("\n" + transition.currentState.state_name + " " +
                               transition.symbol + " " + transition.next_state.state_name)
 
         min_afd.close()

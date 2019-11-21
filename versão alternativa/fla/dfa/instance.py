@@ -7,25 +7,25 @@ from transition import Transition
 class Instance:
     def __init__(self, automaton, state, word, previous_configuration=None):
         self.automaton = automaton
-        self.current_state = state
+        self.currentState = state
         self.current_word = word
         self.acceptance_status = None
         self.previous_configuration = previous_configuration
 
     def __is_transition_valid(self, transition):
-        return transition.match(self.current_state, self.current_word[0])
+        return transition.match(self.currentState, self.current_word[0])
 
     def __str__(self):
         result = ""
         result += self.current_word
         result += ""
-        result += self.current_state
+        result += self.currentState
         return result
 
     def __eq__(self, other):
         if self.__class__ != other.__class__:
             return False
-        if self.current_state != other.current_state:
+        if self.currentState != other.currentState:
             return False
         if self.current_word != other.current_word:
             return False
