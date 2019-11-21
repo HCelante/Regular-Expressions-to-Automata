@@ -1,4 +1,4 @@
-from transicao import *
+from util.transicao import *
 from itertools import chain
 
 
@@ -8,16 +8,16 @@ class Automato:
         self.letra_estado         =  'q'
         self.inicio               =  self.letra_estado+(str(0))
         if(nome != None):
-            self.lista_fim        =  [self.letra_estado+(str(1))]
-            self.lista_estado     =  [self.inicio, self.lista_fim[0]]
-            transicao             =  Transicao(self.inicio, nome, self.lista_fim[0])
+            self.listaFim        =  [self.letra_estado+(str(1))]
+            self.listaEstado     =  [self.inicio, self.listaFim[0]]
+            transicao             =  Transicao(self.inicio, nome, self.listaFim[0])
             self.lista_transicao  =  [transicao]
             self.alfabeto         =  [transicao.nome]
         else:
-            self.lista_estado     =  []
+            self.listaEstado     =  []
             self.lista_transicao  =  list()
             self.alfabeto         =  list()
-            self.lista_fim        =  list()
+            self.listaFim        =  list()
 
 
 
@@ -27,15 +27,15 @@ class Automato:
 
 
     def add_estado(self, nome_estado):
-        if(nome_estado in self.lista_estado):
+        if(nome_estado in self.listaEstado):
             return False
-        self.lista_estado.append(nome_estado)
-        self.lista_fim = [nome_estado]
+        self.listaEstado.append(nome_estado)
+        self.listaFim = [nome_estado]
         return True
 
 
     def get_estado(self, nome_estado):
-        for estado in self.lista_estado:
+        for estado in self.listaEstado:
             if estado == nome_estado:
                 return estado
         return False
@@ -71,10 +71,10 @@ class Automato:
         print(self.alfabeto)
         print(self.epsilon())
         print(self.inicio)
-        for i in self.lista_fim:
+        for i in self.listaFim:
             print(f'{i} ',end='')
         print() 
-        for estados in self.lista_estado:
+        for estados in self.listaEstado:
             print(estados, end =" ")
         print("")
         for i in self.lista_transicao:
@@ -135,9 +135,9 @@ class Automato:
         arquivo.write(titulo+'\n')
         arquivo.write(' '.join(self.alfabeto) + '\n')
         arquivo.write(self.epsilon()+'\n')
-        arquivo.write(' '.join(self.lista_estado) + '\n')
+        arquivo.write(' '.join(self.listaEstado) + '\n')
         arquivo.write(self.inicio + '\n')
-        arquivo.write(' '.join(self.lista_fim) + '\n')
+        arquivo.write(' '.join(self.listaFim) + '\n')
         for i in self.lista_transicao:
             arquivo.write(i.origem +' ')
             arquivo.write(i.nome +' ')
@@ -158,7 +158,7 @@ class Automato:
 
     def criar_arquivo_AFD_MINIZAR(self, nome_arquivo):
         arquivo = open(nome_arquivo,'w')
-        arquivo.write('(\n{' + ','.join(self.lista_estado) + '}\n{')
+        arquivo.write('(\n{' + ','.join(self.listaEstado) + '}\n{')
         arquivo.write(','.join(self.alfabeto))
         arquivo.write('},\n{\n')
         for i in self.lista_transicao:
@@ -167,7 +167,7 @@ class Automato:
             arquivo.write(i.destino +')'+',\n')
         arquivo.write('},\n')
         arquivo.write(self.inicio+',\n')
-        arquivo.write('{'+','.join(self.lista_fim))
+        arquivo.write('{'+','.join(self.listaFim))
         arquivo.write('}\n)')
         arquivo.close()
         

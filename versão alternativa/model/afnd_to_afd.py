@@ -1,16 +1,16 @@
 from AFND.modelo_afnd import *
 
-def conversao_AFND_AFD(AFND):
-    todos_estados = dict()
+def conversao_AFND_AFND(AFND):
+    todosEstados = dict()
     eclosure = dict()
-    closures = {}
+    # closures = {}
     contador = 0
     estado1 = AFND.get_estados_epsilon(AFND.inicio)
     eclosure[AFND.inicio] = estado1
-    AFD = Automato()
+    AFND = Automato()
     # AFND.inicio = contador
     estados = [[estado1,contador]]
-    todos_estados[contador] = estado1
+    todosEstados[contador] = estado1
     contador +=1
 
     while len(estados) != 0:
@@ -22,19 +22,19 @@ def conversao_AFND_AFD(AFND):
                     eclosure[s] = AFND.get_estados_epsilon(s)
                 destinos = destinos.union(eclosure[s])
             if len(destinos) != 0:
-                if destinos not in todos_estados.values():
+                if destinos not in todosEstados.values():
                     estados.append([destinos, contador])
-                    todos_estados[contador] = destinos
-                    destino = AFD.letra_estado+str(contador)
+                    todosEstados[contador] = destinos
+                    destino = AFND.letraEstado+str(contador)
                     contador +=1
                 else:
-                    destino = [k for k, v in todos_estados.items() if v  ==  destinos][0]
-                AFD.add_transicao(AFD.letra_estado+str(origem), palavra, destino)
-    for valor, estado in todos_estados.items():
-        if AFND.lista_fim[0] in estado:
-            estado_final = AFD.letra_estado+str(valor)
-            if estado_final not in AFD.lista_fim:
-                AFD.lista_fim.append(estado_final)
+                    destino = [k for k, v in todosEstados.items() if v  ==  destinos][0]
+                AFND.add_transicao(AFND.letraEstado+str(origem), palavra, destino)
+    for valor, estado in todosEstados.items():
+        if AFND.listaFim[0] in estado:
+            estadoFinal = AFND.letraEstado+str(valor)
+            if estadoFinal not in AFND.listaFim:
+                AFND.listaFim.append(estadoFinal)
 
-    AFD.lista_fim.sort(key = lambda x: x[1:])
-    return AFD
+    AFND.listaFim.sort(key = lambda x: x[1:])
+    return AFND
